@@ -23,12 +23,11 @@ class BorrowedBookModel(models.Model):
 class Comment(models.Model):
     # related ar value diye ai field ta access kora jabe
     book = models.ForeignKey(BookModel, on_delete = models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=30)
-    # unique = true means ak e email diye multiple comment korte parbe na.
-    email = models.EmailField()
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name='user')
+
     body = models.TextField()
     # auto coment ar date time show korbe
     created_on = models.DateTimeField(auto_now_add = True)
     
     def __str__(self):
-        return f"comment by {self.name}"
+        return f"comment by {self.book}"

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, CreateView
 from .forms import RegisterForm
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.urls import reverse_lazy
@@ -11,6 +11,23 @@ from django.views.generic import TemplateView
 # Create your views here.
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib import messages
+from . import models
+
+# for email
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+def send_transaction_email(user, amount, subject, template):
+    message = render_to_string(template, {
+        'user' : user,
+        'amount' : amount,
+    })
+    send_email = EmailMultiAlternatives(subject, '', to=[user.email])
+    send_email.attach_alternative(message, "text/html")
+    send_email.send()
+
+
 
 class UserRegistrationViews(FormView):
     template_name = 'user_regostration.html'
@@ -43,7 +60,15 @@ def deposit_money(request):
             amount = form.cleaned_data['amount']
             user_account.balance += amount
             user_account.save()
+            messages.success(
+            request,
+            f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
+            )
+
+            send_transaction_email(request.user, amount, "Deposit Message", "deposit_mail.html")
             return redirect('home')  
+        
+
     else:
         form = DepositForm()
 
@@ -60,8 +85,7 @@ class profileview1(TemplateView):
 
 def profileview(request):
     data = BorrowedBookModel.objects.filter(user=request.user)
-    print(data)
-    print(request.user)
+    
     return render(request, 'profile.html', {'data':data})
 
 def seeBookview(request, category_slug = None):
@@ -80,6 +104,17 @@ class BookDetailsView(DetailView):
     model = BookModel
     # pk_url_kwarg = 'id'
     template_name = 'Book_details.html'
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = self.get_object()
+        comments = book.comments.all()
+        comment_form = CommentForm()
+        context['comments'] = comments
+        context['comment_form'] = comment_form
+        context['book'] = book
+        return context
     
     
 # def Borrowed_Book1(request, id):
@@ -115,12 +150,19 @@ def Borrowed_Book(request, id):
         request.user.account.balance -= borrowing_price
         request.user.account.save()
 
-        print(request.user.account.account_no)
-        print(request.user)
+        messages.success(
+            request,
+            f'{"{:,.2f}".format(float(borrowing_price))}$ was Borrowed Book successfully'
+            )
 
-        print(book)
+        send_transaction_email(request.user, borrowing_price, "Borrowed Book Message", "boored_book_email.html")
     else:
-        print('Your amount is low, cannot borrow this book')
+        messages.success(
+            request,
+            f'{"{:,.2f}".format(float(borrowing_price))}$ Borrowing price is big for your account balance'
+            )
+
+
 
     return redirect(reverse("book_details", args=[book.id]))
 
@@ -136,4 +178,41 @@ def Return_book(request, id):
 
     
     record.delete()
+    messages.success(
+        request,
+        f' Borrowsuccessfully Return the book'
+        )
+
+    send_transaction_email(request.user, int(record.book.borrowing_price), "Return Book Message", "return_book_email.html")
     return redirect('profile')
+
+
+class Comment_views(DetailView):
+    model = BookModel
+    # pk_url_kwarg = 'id'
+    template_name = 'comment.html'
+ 
+    def post(self, request, *args, **kwargs):
+        comment_form = CommentForm(data=self.request.POST)
+        book = self.get_object()
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.book = book
+            new_comment.user = request.user
+          
+            
+            new_comment.save()
+        return self.get(request, *args, **kwargs)
+ 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = self.object
+        comments = book.comments.all()
+        comment_form = CommentForm()
+        context['comments'] = comments
+        context['comment_form'] = comment_form
+        context['book'] = book
+        return context
+    
+    
+    

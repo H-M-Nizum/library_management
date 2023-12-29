@@ -23,6 +23,28 @@
     </div>
 </div>
 
+<div class="card container mt-5 mb-12 pt-3 bg-body-secondary">
+    <h5 class="text-xl text-gray-900 dark:text-white">Total comments : {{comments | length}}</h5>
+    <div class="card-body">
+      {% for c in comments %}
+      <div>
+        <div>
+         <span class="text-xl text-gray-900 dark:text-white">Name -</span>  {{c.user}}
+       </div>
+        <div>
+           <p> <span class="text-xl text-gray-900 dark:text-white">Comment - </span>{{c.body}}</p>
+         
+        </div>
+        <div>
+         <span class="text-xl text-gray-900 dark:text-white">Comment Created Time - </span> {{c.created_on}}
+        </div>
+      </div>
+      <br><br>
+
+      {% endfor %}
+    </div>
+  </div>
+  <div class="py-12"></div>
 
 
 {% endblock content %}
