@@ -117,21 +117,7 @@ class BookDetailsView(DetailView):
         return context
     
     
-# def Borrowed_Book1(request, id):
-#     book = BookModel.objects.get(pk=id)
 
-#     user_balance = int(request.user.account.balance)
-#     borrowing_price = int(book.borrowing_price)
-#     if user_balance >= borrowing_price:
-#         print('borrowed book')
-#         print(request.user)
-#         print(book)
-#         # BorrowedBook.objects.create(user=request.user, book=book)
-        
-#     else:
-#         print('your amount is low, can not borrowed this book')
-    
-#     return redirect(reverse("book_details", args=[book.id]))
 
 
 
