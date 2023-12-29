@@ -11,8 +11,8 @@ class UserAccountModel(models.Model):
     def __str__(self):
         return str(self.account_no)
     
-class BorrowedBook(models.Model):
-    user = models.ForeignKey(UserAccountModel, on_delete=models.CASCADE)
+class BorrowedBookModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(BookModel, on_delete=models.CASCADE)
     borrowed_date = models.DateTimeField(auto_now_add=True)
 

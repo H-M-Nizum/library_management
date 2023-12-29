@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import FormView, DetailView
 from .forms import RegisterForm
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
@@ -10,6 +10,7 @@ from .forms import DepositForm, CommentForm
 from django.views.generic import TemplateView
 # Create your views here.
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 class UserRegistrationViews(FormView):
     template_name = 'user_regostration.html'
@@ -50,11 +51,18 @@ def deposit_money(request):
 
     
 from library.models import BookModel, Category
+from .models import BorrowedBookModel
 
 # Create your views here.
 
-class profileview(TemplateView):
+class profileview1(TemplateView):
     template_name = 'profile.html'
+
+def profileview(request):
+    data = BorrowedBookModel.objects.filter(user=request.user)
+    print(data)
+    print(request.user)
+    return render(request, 'profile.html', {'data':data})
 
 def seeBookview(request, category_slug = None):
     data = BookModel.objects.all()
@@ -74,14 +82,58 @@ class BookDetailsView(DetailView):
     template_name = 'Book_details.html'
     
     
-def BorrowedBook(request, id):
-    book = BookModel.objects.get(pk=id)
+# def Borrowed_Book1(request, id):
+#     book = BookModel.objects.get(pk=id)
+
+#     user_balance = int(request.user.account.balance)
+#     borrowing_price = int(book.borrowing_price)
+#     if user_balance >= borrowing_price:
+#         print('borrowed book')
+#         print(request.user)
+#         print(book)
+#         # BorrowedBook.objects.create(user=request.user, book=book)
+        
+#     else:
+#         print('your amount is low, can not borrowed this book')
+    
+#     return redirect(reverse("book_details", args=[book.id]))
+
+
+
+
+def Borrowed_Book(request, id):
+    book = get_object_or_404(BookModel, pk=id)
+
     user_balance = int(request.user.account.balance)
     borrowing_price = int(book.borrowing_price)
+
     if user_balance >= borrowing_price:
-        print('borrowed book')
+        # # Create and save BorrowedBook instance
+        BorrowedBookModel.objects.create(user=request.user, book=book)
         
-    else:
-        print('your amount is low, can not borrowed this book')
     
+        request.user.account.balance -= borrowing_price
+        request.user.account.save()
+
+        print(request.user.account.account_no)
+        print(request.user)
+
+        print(book)
+    else:
+        print('Your amount is low, cannot borrow this book')
+
     return redirect(reverse("book_details", args=[book.id]))
+
+
+
+def Return_book(request, id):
+    record = BorrowedBookModel.objects.get(pk=id)
+    print(record.book.borrowing_price)
+
+    
+    request.user.account.balance += int(record.book.borrowing_price)
+    request.user.account.save()
+
+    
+    record.delete()
+    return redirect('profile')
