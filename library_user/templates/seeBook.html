@@ -11,47 +11,29 @@
 
 
 
-<div class="container text-center mt-5">
-    <a class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 mb-2"  href="{% url 'seeBook' %}">ALL</a>
+<div class="container text-center mb-3">
+    <a  class="btn btn-primary" href="{% url 'seeBook' %}">ALL</a>
     {% for i in category %}
  
-        <a class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium rounded-lg text-sm px-5 py-3 text-center me-2 mb-2" href="{% url 'category_slug' i.slug %}">  {{i.name}}</a>
-        
+        <a href="{% url 'category_slug' i.slug %}" class="btn btn-primary">{{i.name}}</a>
 
     {% endfor %}
-</div>
+</div> 
 
 
 <div class="container mb-5">
-        <br><br><button class="mb-8">{{data | length}} result found</button><br>
-        <div class="grid grid-cols-4 gap-4">
-
+    <button class="px-5 py-2 mb-4 btn btn-success text-white">{{data | length}} result found</button>
+    <div class="row  justify-content-center  gap-4">
             {% for i in data %}
-                <div style="box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;" class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-12">
-                        <div class="items-center m-auto">
-                            <div>
-                                <img class="items-center m-auto pt-5 " src="{{i.image.url}}" alt="" />
-                            </div>
-                        </div>
-                   
-                    <div class="p-5">
-                        
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Name : {{i.title}}</h5>
-                        
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Borrowing Price : {{i.borrowing_price}}</p>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{i.description | truncatewords:10}}</p>
-                        <div class="mb-2">
-                            Categories : -
-                            {% for j in i.category.all %}
-                            <button class="" disabled>{{j.name}}</button>
-                            {% endfor %}
-                        </div>
-                        <a href="{% url 'book_details' i.id %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Read more
-                            
-                        </a>
-                    </div>
+            <div class="card pt-2" style="width: 24rem; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <img style="height: 24rem;" src="{{i.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{i.title}}</h5>
+                  <p class="card-title">{{i.borrowing_price}}</p>
+                  <p class="card-text">{{i.description | truncatewords:10}}</p>
+                  <a href="{% url 'book_details' i.id %}" class="btn btn-primary">Read more</a>
                 </div>
+              </div>
 
             {% endfor %}
                 
