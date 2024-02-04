@@ -1,21 +1,79 @@
 {% extends 'base.html' %} 
 {% load static %} 
 
-{% block head_title %}Banking System{% endblock %} {% block content %}
-<div class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24">
+{% block head_title %}LIBRARY{% endblock %} {% block content %}
 
+
+<section class="mt-5">
+    <div class="swiffy-slider slider-item-reveal slider-nav-round slider-item-ratio slider-item-ratio-21x9" id="slider1">
+        <ul class="slider-container">
+            <li><img src="{% static 'img/b5.jpg' %}" loading="lazy" alt="..."></li>
+            <li><img src="{% static 'img/b8.jpg' %}" loading="lazy" alt="..."></li>
+            <li><img src="{% static 'img/b6.jpg' %}" loading="lazy" alt="..."></li>
+            <li><img src="{% static 'img/b7.jpg' %}" loading="lazy" alt="..."></li>
+        </ul>
     
-    <div class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3">
-        <h1 class="font-bold text-4xl my-4">Welcome to Django LIBRARY</h1>
-        <p class="leading-normal mb-4">
-            This is a simple Mamar Bank where you can deposit money, withdraw money, take loan. You can also create an account, login, logout. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed nemo quaerat quo dicta, adipisci eum fuga ratione id numquam eius veniam placeat voluptatum, itaque tempora molestias vel, blanditiis fugiat ipsam!
+        <button type="button" class="slider-nav" aria-label="Go left"></button>
+        <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+    
+        <div class="slider-indicators slider-indicators-square d-none d-md-flex">
+            <button class="active" aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+        </div>
+    
+        <div class="slider-indicators slider-indicators-sm slider-indicators-dark slider-indicators-round d-md-none slider-indicators-highlight">
+            <button class="active" aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+            <button aria-label="Go to slide"></button>
+        </div>
+    </div>
+    
+</section>
 
-        </p>
-        
+
+<!-- new Book section -->
+<section class="mt-5 mb-5 pb-5 bg-body-secondary pt-5">
+    <div class="mt-5 mb-5">
+        <h1 class="text-center">New Arrival Book</h1>
+        <br>
+        <p class=" container text-center">A good book is one that makes the reader feel. It takes the reader on a       compelling journey. Calling a book “good” is an opinion that 
+            can be applied to any book. I believe that a 
+            book can be considered good if it is a 
+            great story with average writing.</p>
     </div>
-    <div class="w-full lg:w-1/2 lg:py-6 text-center ">
-        <img class ="rounded-2xl w-full" src ="{% static './img/pic.jpg' %}"/>
+    <div class="pb-5 mb-5 mt-5 swiffy-slider slider-item-show4 slider-nav-outside slider-nav-dark slider-nav-sm slider-nav-visible slider-nav-page slider-item-snapstart slider-nav-autoplay slider-nav-autopause slider-item-ratio slider-item-ratio-contain slider-item-ratio-32x9 bg-white shadow-lg py-3 py-lg-4" data-slider-nav-autoplay-interval="2000">
+        <div class="slider-container">
+            <div><img src="{% static 'new/a11.jpg' %}" alt="..."></div>
+            <div><img src="{% static 'new/a12.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a13.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a4.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a5.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a16.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a7.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a8.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a19.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a14.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a15.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a17.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a18.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a19.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a1.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a2.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a3.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a6.jpg' %}" loading="lazy" alt="..."></div>
+            <div><img src="{% static 'new/a9.jpg' %}" loading="lazy" alt="..."></div>
+        </div>
+    
+        <button type="button" class="slider-nav" aria-label="Go left"></button>
+        <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+    
     </div>
-</div>
+</section>
+
+
+
 
 {% endblock %}
