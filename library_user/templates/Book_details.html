@@ -3,40 +3,39 @@
 {% block title %}Book Details{% endblock title %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div>
-    <div class="grid grid-cols-1 gap-4">
-        <div><img src="{{object.image.url}}" class="rounded-t-lg py-2 flex justify-center" alt="user image"></div>
+<div class="container mb-5">
+    <div class="">
+        <div><img src="{{object.image.url}}" class="" alt="user image"></div>
     
         <div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Name : {{object.title}}</h5>
+            <h5 class="">Name : {{object.title}}</h5>
                         
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Borrowing Price : {{object.borrowing_price}}</p>
+            <p class="">Borrowing Price : {{object.borrowing_price}}</p>
             <div class="mb-2">
                 Categories : -
                 {% for j in object.category.all %}
-                <button class="bg-blue-900 text-white px-5 py-2 rounded-lg" disabled>{{j.name}}</button>
+                <button class="btn btn-secondary" disabled>{{j.name}}</button>
                 {% endfor %}
             </div>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 ">Details : {{object.description}}</p>
-            <a href="{% url 'borrow_book' object.id %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">BorrowedBook</a>
+            <p class=" ">Details : {{object.description}}</p>
+            <a href="{% url 'borrow_book' object.id %}" class="btn btn-info">📖BorrowedBook</a>
         </div>
     </div>
 </div>
 
-<div class="card container mt-5 mb-12 pt-3 bg-body-secondary">
-    <h5 class="text-xl text-gray-900 dark:text-white">Total comments : {{comments | length}}</h5>
+<div class="container">
+    <h5 class="">Total comments : {{comments | length}}</h5>
     <div class="card-body">
       {% for c in comments %}
       <div>
         <div>
-         <span class="text-xl text-gray-900 dark:text-white">Name -</span>  {{c.user}}
+         <span class="">Name -  {{c.user}}</span>  
        </div>
         <div>
-           <p> <span class="text-xl text-gray-900 dark:text-white">Comment - </span>{{c.body}}</p>
-         
+           <span class="">Comment - {{c.body}}</span>
         </div>
         <div>
-         <span class="text-xl text-gray-900 dark:text-white">Comment Created Time - </span> {{c.created_on}}
+         <span class="">Comment Created Time -  {{c.created_on}}</span>
         </div>
       </div>
       <br><br>

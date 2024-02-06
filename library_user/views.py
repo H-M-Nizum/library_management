@@ -44,11 +44,14 @@ class Userloginviews(LoginView):
     template_name = 'user_login.html'
     
     def get_success_url(self):
+        messages.success(self.request, 'Login Successfully. Welcome Back!')
+
         return reverse_lazy('home')
     
 class userlogoutview(View):
     def get(self, request):
         logout(request)
+        messages.success(self.request, 'Logout Successfully. See you later!')
         return redirect('home')
     
 def deposit_money(request):
@@ -76,7 +79,7 @@ def deposit_money(request):
 
     
 from library.models import BookModel, Category
-from .models import BorrowedBookModel
+from .models import BorrowedBookModel, UserAccountModel
 
 # Create your views here.
 
@@ -84,9 +87,16 @@ class profileview1(TemplateView):
     template_name = 'profile.html'
 
 def profileview(request):
+    # data1 = User.objects.filter(user=request.user)
+    # print(data1)
     data = BorrowedBookModel.objects.filter(user=request.user)
+    user_data = UserAccountModel.objects.filter(user=request.user)
+    print(user_data)
+    for i in user_data:
+        print(i.balance)
+    print(object)
     
-    return render(request, 'profile.html', {'data':data})
+    return render(request, 'profile.html', {'data':data, 'user_data':user_data})
 
 def seeBookview(request, category_slug = None):
     data = BookModel.objects.all()
