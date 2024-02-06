@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container bg-black p-10">
+<div class="container bg-black p-5">
     <h1 style="text-align: center; color: white;">This is send money page</h1>
     <form method="post" novalidate>
         {% csrf_token %}
@@ -25,7 +25,7 @@
             <br>
             {% endfor %}
             <br>
-            <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+            <button type="submit" class=" btn btn-info">Submit</button>
         </div>
     </form>
 
