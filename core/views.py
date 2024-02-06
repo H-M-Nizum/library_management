@@ -4,3 +4,6 @@ from django.views.generic import TemplateView
 
 class homeview(TemplateView):
     template_name = 'index.html'
+
+class Contactview(TemplateView):
+    template_name = 'contact_us.html'
